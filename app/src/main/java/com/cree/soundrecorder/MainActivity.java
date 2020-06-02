@@ -25,7 +25,9 @@ public class MainActivity extends AppCompatActivity {
                 , R.id.bStopRecorder
                 , R.id.bPauseRecorder
                 , R.id.bInsertContent
-                , R.id.bGetFileTime};
+                , R.id.bGetFileTime
+                , R.id.bIntentToCutActivity
+        };
         for (int id : ids) {
             findViewById(id).setOnClickListener(mRecorderController);
         }
@@ -41,4 +43,5 @@ public class MainActivity extends AppCompatActivity {
     public void setDuration(String duration) {
         mTvDuration.setText(duration);
     }
+
 }

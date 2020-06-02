@@ -1,6 +1,7 @@
 package com.cree.soundrecorder.sound;
 
 import android.Manifest;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.Environment;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.cree.soundrecorder.CutActivity;
 import com.cree.soundrecorder.MainActivity;
 import com.cree.soundrecorder.R;
 import com.cree.soundrecorder.util.LogUtil;
@@ -107,6 +109,15 @@ public class RecorderController implements View.OnClickListener {
                 long length = file.length();
                 mActivity.setDuration("文件长度:" + length + " 音频时长:" + duration);
                 break;
+            case R.id.bIntentToCutActivity:
+                if (mRecorderStatus != RECORDER_STATUS_STOP) {
+                    intercept();
+                    return;
+                }
+                LogUtil.e("---------前往裁切界面------" + v.getId());
+                Intent intent = new Intent(mActivity, CutActivity.class);
+                mActivity.startActivity(intent);
+                break;
         }
     }
 
@@ -138,7 +149,7 @@ public class RecorderController implements View.OnClickListener {
     });
 
 
-    private static String getFilePathToString() {
+    public static String getFilePathToString() {
         String path = Environment.getExternalStorageDirectory().getPath();
         String groupPath = path + File.separator + "test";
         File groupFile = new File(groupPath);
@@ -177,7 +188,7 @@ public class RecorderController implements View.OnClickListener {
         return stringBuilder.toString();
     }
 
-    public int getDuration() {
+    public static int getDuration() {
         try {
             MediaPlayer mediaPlayer = new MediaPlayer();
             mediaPlayer.setDataSource(getFilePathToString());
